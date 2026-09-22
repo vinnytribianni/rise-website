@@ -1,0 +1,749 @@
+<title>Rise</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@800&family=Manrope:wght@400;500;600;700&display=swap');
+
+  :root{
+    --cream:#FBF0E1; --cream2:#FFFDF9;
+    --ink:#2B2118; --ink-soft:#6B5D4F; --ink-faint:#9C8C7B;
+    --border-light:rgba(43,33,24,0.08);
+    --orange:#E8622C; --orange-dark:#C94F1E; --orange-soft:#FBDCC9;
+    --gold-soft:#FBEBC7; --gold-text:#8A6414;
+    --lavender-soft:#E4E9F7; --lavender-text:#48588C;
+    --sage-soft:#DCE9DD; --sage-text:#345A3B;
+    --coral-soft:#FBE1E7; --coral-text:#9C3A56;
+    --success:#6FA37A;
+
+    --dark-bg:#1C1B1E; --dark-card:#29282D; --dark-card2:#323136;
+    --dark-text:#F5E9DA; --dark-text-soft:#B7A996; --dark-text-faint:#7C7369;
+    --border-dark:rgba(245,233,218,0.10);
+
+    --bg:var(--cream); --surface:var(--cream2); --surface-raised:#fff;
+    --text:var(--ink); --text-soft:var(--ink-soft); --text-faint:var(--ink-faint);
+    --border:var(--border-light);
+    --accent:var(--orange); --accent-dark:var(--orange-dark); --accent-soft:var(--orange-soft);
+    --shadow: 0 1px 2px rgba(43,33,24,0.04);
+
+    /* Rise's wake/wind-down screens are deliberately always-dark regardless of app theme —
+       this page borrows that exact pattern for its own dark sections. */
+    --dusk-bg:var(--dark-bg); --dusk-card:var(--dark-card); --dusk-card2:var(--dark-card2);
+    --dusk-text:var(--dark-text); --dusk-text-soft:var(--dark-text-soft); --dusk-text-faint:var(--dark-text-faint);
+    --dusk-border:var(--border-dark);
+
+    font-size: 16px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:var(--dark-bg); --surface:var(--dark-card); --surface-raised:var(--dark-card2);
+      --text:var(--dark-text); --text-soft:var(--dark-text-soft); --text-faint:var(--dark-text-faint);
+      --border:var(--border-dark); --accent-soft:rgba(232,98,44,0.22);
+      --shadow: 0 1px 2px rgba(0,0,0,0.3);
+      --gold-soft:rgba(224,166,62,0.22); --gold-text:#E0A63E;
+      --lavender-soft:rgba(126,147,201,0.22); --lavender-text:#93A6D6;
+      --sage-soft:rgba(95,142,105,0.22); --sage-text:#7FB58C;
+      --coral-soft:rgba(217,96,127,0.22); --coral-text:#E58BA5;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:var(--dark-bg); --surface:var(--dark-card); --surface-raised:var(--dark-card2);
+    --text:var(--dark-text); --text-soft:var(--dark-text-soft); --text-faint:var(--dark-text-faint);
+    --border:var(--border-dark); --accent-soft:rgba(232,98,44,0.22);
+    --shadow: 0 1px 2px rgba(0,0,0,0.3);
+    --gold-soft:rgba(224,166,62,0.22); --gold-text:#E0A63E;
+    --lavender-soft:rgba(126,147,201,0.22); --lavender-text:#93A6D6;
+    --sage-soft:rgba(95,142,105,0.22); --sage-text:#7FB58C;
+    --coral-soft:rgba(217,96,127,0.22); --coral-text:#E58BA5;
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; }
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:'Manrope',ui-sans-serif,system-ui,-apple-system,sans-serif;
+    font-size:1rem; line-height:1.55;
+    padding-inline:0;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{ font-family:'Nunito',ui-rounded,'Segoe UI',sans-serif; font-weight:800; letter-spacing:-0.01em; text-wrap:balance; margin:0; }
+  p{ margin:0; }
+  a{ color:inherit; }
+  img{ max-width:100%; display:block; }
+  ul{ margin:0; padding:0; list-style:none; }
+  button{ font:inherit; }
+  .sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important; }
+  }
+
+  .wrap{ max-width:1120px; margin-inline:auto; padding-inline:20px; }
+  @media (min-width:640px){ .wrap{ padding-inline:32px; } }
+
+  /* ---------- reveal-on-scroll ---------- */
+  .reveal{ opacity:0; transform:translateY(14px); transition:opacity .6s ease, transform .6s ease; }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  /* ---------- header ---------- */
+  header{
+    position:sticky; top:env(safe-area-inset-top,0px); z-index:50;
+    background:color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+    border-bottom:1px solid transparent;
+    transition:border-color .25s ease, background .25s ease;
+  }
+  header.scrolled{ border-bottom-color:var(--border); }
+  .nav{ display:flex; align-items:center; justify-content:space-between; gap:16px; padding-block:14px; }
+  .brand{ display:flex; align-items:center; gap:10px; text-decoration:none; }
+  .brand img{ width:34px; height:34px; object-fit:contain; }
+  .brand-word{ font-family:'Nunito',sans-serif; font-weight:800; font-size:1.2rem; color:var(--text); }
+  .nav-links{ display:none; align-items:center; gap:28px; }
+  .nav-links a{ text-decoration:none; font-weight:600; font-size:0.92rem; color:var(--text-soft); transition:color .15s ease; }
+  .nav-links a:hover{ color:var(--accent); }
+  @media (min-width:860px){ .nav-links{ display:flex; } }
+  .nav-right{ display:flex; align-items:center; gap:10px; }
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    border-radius:999px; font-weight:700; font-size:0.92rem; text-decoration:none;
+    padding:11px 20px; border:1px solid transparent; cursor:pointer; white-space:nowrap;
+    transition:transform .15s ease, box-shadow .15s ease, background .15s ease, border-color .15s ease;
+  }
+  .btn:active{ transform:scale(0.97); }
+  .btn-primary{ background:var(--accent); color:#fff; box-shadow:0 6px 16px -6px rgba(232,98,44,0.55); }
+  .btn-primary:hover{ background:var(--accent-dark); }
+  .btn-ghost{ background:transparent; color:var(--text); border-color:var(--border); }
+  .btn-ghost:hover{ border-color:var(--accent); color:var(--accent); }
+  .btn-sm{ padding:9px 16px; font-size:0.85rem; }
+  .btn-block{ width:100%; }
+  .btn-dusk-primary{ background:var(--accent); color:#fff; }
+  .btn-dusk-primary:hover{ background:var(--accent-dark); }
+
+  .menu-btn{
+    display:flex; width:40px; height:40px; align-items:center; justify-content:center;
+    border-radius:10px; border:1px solid var(--border); background:var(--surface); cursor:pointer;
+  }
+  @media (min-width:860px){ .menu-btn{ display:none; } }
+  .menu-btn span, .menu-btn span::before, .menu-btn span::after{
+    content:''; display:block; width:18px; height:2px; background:var(--text); border-radius:2px; position:relative; transition:transform .2s ease, opacity .2s ease;
+  }
+  .menu-btn span::before{ position:absolute; top:-6px; }
+  .menu-btn span::after{ position:absolute; top:6px; }
+  .menu-btn[aria-expanded="true"] span{ background:transparent; }
+  .menu-btn[aria-expanded="true"] span::before{ top:0; transform:rotate(45deg); background:var(--text); }
+  .menu-btn[aria-expanded="true"] span::after{ top:0; transform:rotate(-45deg); background:var(--text); }
+
+  .mobile-panel{ display:none; border-top:1px solid var(--border); background:var(--bg); }
+  .mobile-panel.open{ display:block; }
+  .mobile-panel ul{ display:flex; flex-direction:column; padding:14px 20px 18px; gap:2px; }
+  .mobile-panel a{ display:block; padding:12px 4px; text-decoration:none; font-weight:700; color:var(--text); border-bottom:1px solid var(--border); }
+  .mobile-panel li:last-child a{ border-bottom:none; }
+
+  /* ---------- eyebrow / pill ---------- */
+  .pill{
+    display:inline-flex; align-items:center; gap:7px; padding:6px 14px; border-radius:999px;
+    background:var(--accent-soft); color:var(--accent-dark); font-weight:700; font-size:0.78rem;
+    letter-spacing:0.02em; text-transform:uppercase;
+  }
+  .pill-dot{ width:6px; height:6px; border-radius:999px; background:var(--accent-dark); }
+
+  /* ---------- hero ---------- */
+  .hero{ padding-block:56px 64px; }
+  @media (min-width:760px){ .hero{ padding-block:76px 88px; } }
+  .hero-grid{ display:grid; gap:40px; align-items:center; }
+  @media (min-width:860px){ .hero-grid{ grid-template-columns:1.05fr 0.95fr; gap:48px; } }
+  .hero h1{ font-size:clamp(2.1rem, 5.4vw, 3.4rem); line-height:1.05; margin-block:16px 18px; }
+  .hero h1 em{ font-style:normal; color:var(--accent); }
+  .hero p.lead{ font-size:1.08rem; color:var(--text-soft); max-width:46ch; }
+  .hero-ctas{ display:flex; flex-wrap:wrap; gap:12px; margin-top:26px; }
+  .hero-art{ position:relative; display:flex; justify-content:center; }
+  .hero-art img.hero-phone{ width:min(272px,62vw); filter:drop-shadow(0 24px 34px rgba(43,33,24,0.22)); }
+  .float-card{
+    position:absolute; background:var(--orange); color:#fff; border-radius:20px;
+    padding:16px 18px; box-shadow:0 18px 30px -12px rgba(43,33,24,0.35);
+    font-family:'Nunito',sans-serif;
+  }
+  .float-card .fc-tag{ font-size:0.68rem; font-weight:800; letter-spacing:0.08em; text-transform:uppercase; opacity:0.85; }
+  .float-card .fc-time{ font-size:1.7rem; font-weight:800; margin-top:2px; }
+  .float-card .fc-task{ font-size:0.78rem; font-weight:700; opacity:0.92; margin-top:6px; display:flex; align-items:center; gap:6px; }
+  .card-1{ top:-6%; left:-6%; transform:rotate(-6deg); background:var(--accent-soft); color:var(--accent-dark); box-shadow:0 14px 26px -14px rgba(43,33,24,0.3); }
+  .card-1 .fc-tag{ opacity:0.75; }
+  .card-2{ bottom:-4%; right:-8%; transform:rotate(5deg); background:var(--surface-raised); color:var(--text); border:1px solid var(--border); }
+  .card-2 .fc-tag{ color:var(--accent-dark); opacity:1; }
+  @media (max-width:520px){ .float-card{ padding:12px 14px; } .card-1{ left:0; top:28px; } .card-2{ right:0; } .hero-art{ margin-top:28px; } }
+
+  .trust-strip{ margin-top:52px; display:grid; gap:14px; grid-template-columns:1fr; }
+  @media (min-width:640px){ .trust-strip{ grid-template-columns:repeat(3,1fr); } }
+  .trust-item{ display:flex; align-items:flex-start; gap:12px; padding:16px 4px; border-top:1px solid var(--border); }
+  @media (min-width:640px){ .trust-item{ border-top:none; border-left:1px solid var(--border); padding-left:20px; } .trust-item:first-child{ border-left:none; padding-left:4px; } }
+  .trust-icon{ flex:none; width:34px; height:34px; border-radius:10px; background:var(--accent-soft); color:var(--accent-dark); display:flex; align-items:center; justify-content:center; }
+  .trust-item h3{ font-size:0.92rem; font-weight:800; margin-bottom:2px; }
+  .trust-item p{ font-size:0.85rem; color:var(--text-soft); }
+
+  /* ---------- section shell ---------- */
+  section{ padding-block:64px; }
+  @media (min-width:760px){ section{ padding-block:92px; } }
+  .section-head{ max-width:640px; margin-bottom:40px; }
+  .section-head .pill{ margin-bottom:16px; }
+  .section-head h2{ font-size:clamp(1.6rem,3.6vw,2.3rem); line-height:1.12; }
+  .section-head p{ margin-top:12px; color:var(--text-soft); font-size:1.02rem; }
+  .section-head.center{ margin-inline:auto; text-align:center; }
+
+  .dusk{ background:var(--dusk-bg); color:var(--dusk-text); }
+  .dusk .section-head p{ color:var(--dusk-text-soft); }
+  .dusk .pill{ background:rgba(232,98,44,0.22); color:#F7A57F; }
+  .dusk .pill-dot{ background:#F7A57F; }
+
+  /* ---------- feelings ---------- */
+  .feel-grid{ display:grid; gap:16px; grid-template-columns:1fr; }
+  @media (min-width:640px){ .feel-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media (min-width:1000px){ .feel-grid{ grid-template-columns:repeat(5,1fr); } }
+  .feel-card{ border-radius:20px; padding:22px 20px; border:1px solid var(--border); background:var(--surface); display:flex; flex-direction:column; gap:14px; min-height:100%; }
+  .feel-swatch{ width:40px; height:40px; border-radius:12px; display:flex; align-items:center; justify-content:center; }
+  .feel-card h3{ font-size:1.04rem; }
+  .feel-card ul{ display:flex; flex-direction:column; gap:7px; margin-top:2px; }
+  .feel-card li{ font-size:0.86rem; color:var(--text-soft); display:flex; gap:8px; align-items:baseline; }
+  .feel-card li::before{ content:''; width:4px; height:4px; border-radius:999px; background:currentColor; flex:none; transform:translateY(-3px); opacity:0.6; }
+
+  /* ---------- tasks ---------- */
+  .task-grid{ display:grid; gap:12px; grid-template-columns:repeat(2,1fr); }
+  @media (min-width:640px){ .task-grid{ grid-template-columns:repeat(3,1fr); } }
+  @media (min-width:960px){ .task-grid{ grid-template-columns:repeat(4,1fr); } }
+  .task-card{ border-radius:16px; padding:18px 16px; background:var(--surface); border:1px solid var(--border); display:flex; flex-direction:column; gap:10px; }
+  .task-icon{ width:32px; height:32px; color:var(--accent-dark); }
+  .task-card h4{ font-size:0.92rem; font-weight:800; font-family:'Nunito',sans-serif; }
+  .task-card p{ font-size:0.78rem; color:var(--text-faint); line-height:1.4; }
+
+  .tasks-media{ margin-top:44px; display:grid; gap:32px; align-items:center; }
+  @media (min-width:860px){ .tasks-media{ grid-template-columns:0.9fr 1.1fr; } }
+  .tasks-media img{ width:min(280px,70vw); margin-inline:auto; filter:drop-shadow(0 20px 28px rgba(43,33,24,0.14)); }
+  .note-card{ border-radius:18px; padding:22px 24px; background:var(--accent-soft); border:1px solid var(--border); }
+  .note-card p{ font-size:0.94rem; color:var(--accent-dark); font-weight:600; }
+
+  /* ---------- focus / lock ---------- */
+  .lock-grid{ display:grid; gap:20px; }
+  @media (min-width:760px){ .lock-grid{ grid-template-columns:repeat(2,1fr); } }
+  .lock-card{ border-radius:20px; padding:26px 24px; background:var(--dusk-card); border:1px solid var(--dusk-border); }
+  .lock-card h3{ font-size:1.1rem; color:var(--dusk-text); margin-bottom:8px; }
+  .lock-card p{ color:var(--dusk-text-soft); font-size:0.92rem; }
+  .lock-icon{ width:38px; height:38px; border-radius:11px; background:rgba(232,98,44,0.22); color:#F7A57F; display:flex; align-items:center; justify-content:center; margin-bottom:14px; }
+
+  .streak-block{ margin-top:36px; border-radius:20px; padding:26px 24px; background:var(--dusk-card2); border:1px solid var(--dusk-border); display:flex; flex-wrap:wrap; gap:24px; align-items:center; justify-content:space-between; }
+  .streak-copy h3{ color:var(--dusk-text); font-size:1.05rem; margin-bottom:6px; }
+  .streak-copy p{ color:var(--dusk-text-soft); font-size:0.88rem; max-width:36ch; }
+  .streak-week{ display:flex; gap:8px; }
+  .streak-day{ display:flex; flex-direction:column; align-items:center; gap:6px; }
+  .streak-day .dot{ width:26px; height:26px; border-radius:999px; border:2px solid rgba(232,98,44,0.5); }
+  .streak-day .dot.done{ background:var(--accent); border-color:var(--accent); }
+  .streak-day span{ font-size:0.65rem; font-weight:700; color:var(--dusk-text-faint); text-transform:uppercase; letter-spacing:0.04em; }
+
+  /* ---------- wind-down ---------- */
+  .wd-grid{ display:grid; gap:40px; align-items:center; }
+  @media (min-width:860px){ .wd-grid{ grid-template-columns:1fr 1fr; } }
+  .wd-grid img{ width:min(320px,75vw); margin-inline:auto; filter:drop-shadow(0 22px 30px rgba(0,0,0,0.35)); }
+  .wd-list{ display:flex; flex-direction:column; gap:16px; margin-top:24px; }
+  .wd-item{ display:flex; gap:14px; align-items:flex-start; }
+  .wd-item .wd-icon{ flex:none; width:30px; height:30px; border-radius:9px; background:rgba(232,98,44,0.22); color:#F7A57F; display:flex; align-items:center; justify-content:center; }
+  .wd-item h4{ color:var(--dusk-text); font-size:0.95rem; margin-bottom:2px; }
+  .wd-item p{ color:var(--dusk-text-soft); font-size:0.85rem; }
+
+  /* ---------- pricing ---------- */
+  .price-card{ max-width:440px; margin-inline:auto; border-radius:24px; padding:36px 32px; background:var(--surface); border:1px solid var(--border); box-shadow:var(--shadow); text-align:center; }
+  .price-card img{ width:72px; margin-inline:auto; margin-bottom:10px; }
+  .price-value{ font-family:'Nunito',sans-serif; font-weight:800; font-size:3rem; color:var(--text); margin-top:6px; }
+  .price-value span{ font-size:1rem; font-weight:700; color:var(--text-faint); }
+  .price-trial{ font-size:0.85rem; color:var(--accent-dark); font-weight:700; margin-top:4px; }
+  .price-features{ text-align:left; display:flex; flex-direction:column; gap:12px; margin:28px 0 30px; }
+  .price-features li{ display:flex; gap:10px; align-items:flex-start; font-size:0.92rem; color:var(--text-soft); }
+  .price-check{ flex:none; width:20px; height:20px; border-radius:999px; background:var(--success); color:#fff; display:flex; align-items:center; justify-content:center; margin-top:1px; }
+
+  /* ---------- faq ---------- */
+  .faq-list{ max-width:720px; margin-inline:auto; display:flex; flex-direction:column; gap:10px; }
+  .faq-item{ border:1px solid var(--border); border-radius:16px; background:var(--surface); overflow:hidden; }
+  .faq-item summary{
+    list-style:none; cursor:pointer; padding:18px 20px; display:flex; align-items:center; justify-content:space-between; gap:16px;
+    font-weight:700; font-size:0.98rem;
+  }
+  .faq-item summary::-webkit-details-marker{ display:none; }
+  .faq-chevron{ flex:none; width:20px; height:20px; color:var(--text-faint); transition:transform .2s ease; }
+  .faq-item[open] .faq-chevron{ transform:rotate(180deg); color:var(--accent); }
+  .faq-body{ padding:0 20px 20px; color:var(--text-soft); font-size:0.92rem; max-width:64ch; }
+
+  /* ---------- notify band ---------- */
+  .notify{ border-radius:28px; padding:48px 28px; text-align:center; background:linear-gradient(155deg, var(--accent) 0%, var(--accent-dark) 100%); color:#fff; scroll-margin-top:96px; }
+  .notify h2{ color:#fff; font-size:clamp(1.5rem,3.6vw,2.1rem); }
+  .notify p{ color:rgba(255,255,255,0.86); margin-top:10px; max-width:44ch; margin-inline:auto; }
+  .store-row{ display:flex; justify-content:center; margin-top:28px; }
+  .store-badge{
+    display:inline-flex; align-items:center; gap:10px; background:#000; color:#fff; text-decoration:none;
+    border-radius:14px; padding:11px 20px 11px 18px; border:1px solid rgba(255,255,255,0.25);
+    transition:transform .15s ease, background .15s ease;
+  }
+  .store-badge:hover{ transform:translateY(-1px); background:#161616; }
+  .store-badge span{ display:flex; flex-direction:column; line-height:1.15; font-family:'Manrope',sans-serif; font-weight:700; font-size:1.02rem; text-align:left; }
+  .store-badge em{ font-style:normal; font-weight:500; font-size:0.66rem; text-transform:uppercase; letter-spacing:0.04em; opacity:0.85; }
+  .notify-hint{ font-size:0.78rem; color:rgba(255,255,255,0.75); margin-top:16px; }
+
+  a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visible{
+    outline:2px solid var(--accent); outline-offset:2px; border-radius:8px;
+  }
+
+  /* ---------- footer ---------- */
+  footer{ padding-block:44px; border-top:1px solid var(--border); }
+  .foot-grid{ display:flex; flex-wrap:wrap; gap:24px; align-items:center; justify-content:space-between; }
+  .foot-brand{ display:flex; align-items:center; gap:10px; }
+  .foot-brand img{ width:28px; height:28px; }
+  .foot-brand span{ font-family:'Nunito',sans-serif; font-weight:800; }
+  .foot-links{ display:flex; gap:20px; flex-wrap:wrap; }
+  .foot-links a{ font-size:0.85rem; color:var(--text-soft); text-decoration:none; font-weight:600; }
+  .foot-links a:hover{ color:var(--accent); }
+  .foot-copy{ font-size:0.78rem; color:var(--text-faint); margin-top:22px; text-align:center; }
+</style>
+
+<header id="site-header">
+  <div class="wrap nav">
+    <a href="#top" class="brand">
+      <img src="mascot/logo-mark.png" alt="" />
+      <span class="brand-word">Rise</span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#feelings">Features</a>
+      <a href="#focus">Anti-scroll</a>
+      <a href="#winddown">Wind-down</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="nav-right">
+      <a href="#download" class="btn btn-primary btn-sm">Download</a>
+      <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="mobile-panel" aria-label="Toggle menu">
+        <span></span>
+      </button>
+    </div>
+  </div>
+  <div class="mobile-panel" id="mobile-panel">
+    <ul>
+      <li><a href="#feelings">Features</a></li>
+      <li><a href="#focus">Anti-scroll</a></li>
+      <li><a href="#winddown">Wind-down</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+  </div>
+</header>
+
+<main id="top">
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="pill"><span class="pill-dot"></span>Now on iOS</span>
+        <h1>The alarm your phone<br><em>can't talk you out of.</em></h1>
+        <p class="lead">Rise rings through Silent Mode and every Focus, makes you prove you're actually awake, then locks the apps that would've eaten your morning. Built for the chronic snoozer who's done lying to themselves.</p>
+        <div class="hero-ctas">
+          <a href="#download" class="btn btn-primary">Download on the App Store</a>
+          <a href="#feelings" class="btn btn-ghost">See how it works</a>
+        </div>
+      </div>
+      <div class="hero-art">
+        <div class="float-card card-1">
+          <div class="fc-tag">Streak</div>
+          <div class="fc-task" style="margin-top:0;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M13 3 4 14h7l-1 7 9-11h-7l1-7Z"/></svg>
+            3 mornings on time
+          </div>
+        </div>
+        <img class="hero-phone" src="phones/home.png" alt="The Rise app's Home screen on an iPhone, showing today's alarm, morning checklist, and quick actions" />
+        <div class="float-card card-2">
+          <div class="fc-tag">Locked</div>
+          <div class="fc-task" style="margin-top:0;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 1 1 8 0v4"/></svg>
+            Instagram, TikTok
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wrap trust-strip reveal">
+      <div class="trust-item">
+        <div class="trust-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6v6l4 2"/><circle cx="12" cy="13" r="8"/><path d="M9 2h6M19 4l1.5 1.5M4 4L2.5 5.5"/></svg></div>
+        <div>
+          <h3>Rings on silent</h3>
+          <p>Real system alarms via Apple's AlarmKit — the same category the Clock app uses.</p>
+        </div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3 4 14h7l-1 7 9-11h-7l1-7Z"/></svg></div>
+        <div>
+          <h3>One snooze. Five minutes.</h3>
+          <p>That's it. After that, the alarm keeps going until the task is done.</p>
+        </div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 1 1 8 0v4"/></svg></div>
+        <div>
+          <h3>Real Screen Time locks</h3>
+          <p>Built on Apple's actual Family Controls — not a screen you can swipe past.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FEELINGS ============ -->
+  <section id="feelings">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="pill"><span class="pill-dot"></span>Five feelings</span>
+        <h2>Alarms built around how you actually feel.</h2>
+        <p>Every alarm picks a feeling — the tasks and the tone follow it. Energized mornings get you moving; calm ones ease you in.</p>
+      </div>
+      <div class="feel-grid">
+        <div class="feel-card reveal">
+          <div class="feel-swatch" style="background:var(--accent-soft); color:var(--orange-dark);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3 4 14h7l-1 7 9-11h-7l1-7Z"/></svg>
+          </div>
+          <h3>Energized</h3>
+          <ul>
+            <li>Shake it</li>
+            <li>Quick reps</li>
+            <li>Scan a QR code</li>
+          </ul>
+        </div>
+        <div class="feel-card reveal">
+          <div class="feel-swatch" style="background:var(--gold-soft); color:var(--gold-text);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>
+          </div>
+          <h3>Focused</h3>
+          <ul>
+            <li>Quick math</li>
+            <li>Riddle</li>
+            <li>Pattern match</li>
+          </ul>
+        </div>
+        <div class="feel-card reveal">
+          <div class="feel-swatch" style="background:var(--lavender-soft); color:var(--lavender-text);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M9.59 4.59A2 2 0 1 1 11 8H2"/><path d="M12.59 11.59A2 2 0 1 1 14 15H2"/><path d="M17.73 7.73A2.5 2.5 0 1 1 19.5 12H2"/></svg>
+          </div>
+          <h3>Calm</h3>
+          <ul>
+            <li>Say it back</li>
+            <li>Gentle stretch</li>
+          </ul>
+        </div>
+        <div class="feel-card reveal">
+          <div class="feel-swatch" style="background:var(--sage-soft); color:var(--sage-text);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9Z"/></svg>
+          </div>
+          <h3>Grateful</h3>
+          <ul>
+            <li>Gratitude note</li>
+            <li>Set an intention</li>
+          </ul>
+        </div>
+        <div class="feel-card reveal">
+          <div class="feel-swatch" style="background:var(--coral-soft); color:var(--coral-text);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2Z"/></svg>
+          </div>
+          <h3>Playful</h3>
+          <ul>
+            <li>Catch me</li>
+            <li>Word scramble</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tasks-media">
+        <img src="phones/edit-alarm.png" alt="Editing an alarm in Rise, with Energized and Focused feelings picked and Quick Math among the wake-up tasks" />
+        <div>
+          <div class="note-card reveal">
+            <p>Mix feelings, pick up to three tasks, and set the difficulty — your alarm, your rules.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TASKS ============ -->
+  <section id="tasks" style="background:var(--surface);">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="pill"><span class="pill-dot"></span>No slide-to-dismiss</span>
+        <h2>No button. No slide-to-dismiss. Prove it.</h2>
+        <p>Every task needs your eyes open and your brain on — scan something across the room, do the math, say the phrase back, catch the mascot before it runs off.</p>
+      </div>
+
+      <div class="task-grid">
+        <div class="task-card reveal">
+          <svg class="task-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM19 19h2v2h-2z"/></svg>
+          <h4>Scan QR Code</h4>
+          <p>Find the tag you printed and put somewhere annoying.</p>
+        </div>
+        <div class="task-card reveal">
+          <svg class="task-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="11" rx="2"/><path d="M7 8V6a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2"/></svg>
+          <h4>Make Your Bed</h4>
+          <p>Snap a photo — Rise checks it's actually made.</p>
+        </div>
+        <div class="task-card reveal">
+          <svg class="task-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h12v4H6zM6 12h6M6 16h9M6 8h12"/></svg>
+          <h4>Quick Math</h4>
+          <p>A few real problems — no skipping ahead half-asleep.</p>
+        </div>
+        <div class="task-card reveal">
+          <svg class="task-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v4M9 22h6"/></svg>
+          <h4>Speech</h4>
+          <p>Say the phrase back clearly enough to be recognized.</p>
+        </div>
+        <div class="task-card reveal">
+          <svg class="task-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h10M4 17h13"/></svg>
+          <h4>Word Scramble</h4>
+          <p>Unjumble it before your brain fully catches up.</p>
+        </div>
+        <div class="task-card reveal">
+          <svg class="task-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m9 12 2 2 4-4"/></svg>
+          <h4>Catch Me</h4>
+          <p>Tap the mascot before it dodges off-screen.</p>
+        </div>
+        <div class="task-card reveal">
+          <svg class="task-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="3"/><circle cx="17" cy="7" r="3"/><circle cx="12" cy="17" r="3"/></svg>
+          <h4>Reaction Test</h4>
+          <p>Fast fingers only — slow ones go right back to bed.</p>
+        </div>
+        <div class="task-card reveal">
+          <svg class="task-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/><circle cx="12" cy="12" r="3.5"/></svg>
+          <h4>Memory Flash</h4>
+          <p>Remember the pattern, repeat it back — no peeking.</p>
+        </div>
+      </div>
+
+      <div class="tasks-media">
+        <img src="phones/wake.png" alt="Rise's wake screen mid-task, asking the user to find and photograph a pair of shoes to silence the alarm" />
+        <div>
+          <div class="note-card reveal">
+            <p>Snoozing once buys you five minutes. Snooze again and the alarm just keeps ringing until the task is actually done — no more negotiating with 6am you.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOCUS / LOCK ============ -->
+  <section id="focus" class="dusk">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="pill"><span class="pill-dot"></span>Anti-scroll</span>
+        <h2>Your phone can't talk its way out of this one.</h2>
+        <p>Rise uses Apple's real Screen Time controls — not an in-app overlay you can swipe past — to actually lock Instagram, TikTok, or whatever you'd otherwise vanish into for forty-five minutes.</p>
+      </div>
+
+      <div class="lock-grid">
+        <div class="lock-card reveal">
+          <div class="lock-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg></div>
+          <h3>Morning lock</h3>
+          <p>Choose your terms: locked until the checklist is finished, or for a fixed stretch — 30, 60, 120 minutes, whatever gets you clear of your phone before the day starts.</p>
+        </div>
+        <div class="lock-card reveal">
+          <div class="lock-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg></div>
+          <h3>Wind-down lock</h3>
+          <p>The same apps lock themselves again before bed, on a schedule — automatically, every night, without you having to remember to turn anything on.</p>
+        </div>
+      </div>
+
+      <div class="streak-block reveal">
+        <div class="streak-copy">
+          <h3>Every on-time morning shows up on your calendar.</h3>
+          <p>A quiet, honest streak — it only counts the mornings you actually finished, not the ones you meant to.</p>
+        </div>
+        <div class="streak-week" aria-hidden="true">
+          <div class="streak-day"><div class="dot done"></div><span>M</span></div>
+          <div class="streak-day"><div class="dot done"></div><span>T</span></div>
+          <div class="streak-day"><div class="dot done"></div><span>W</span></div>
+          <div class="streak-day"><div class="dot"></div><span>T</span></div>
+          <div class="streak-day"><div class="dot done"></div><span>F</span></div>
+          <div class="streak-day"><div class="dot done"></div><span>S</span></div>
+          <div class="streak-day"><div class="dot"></div><span>S</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WIND-DOWN ============ -->
+  <section id="winddown" class="dusk" style="background:var(--dusk-card);">
+    <div class="wrap wd-grid">
+      <div>
+        <span class="pill reveal"><span class="pill-dot"></span>Evenings count too</span>
+        <h2 class="reveal" style="margin-top:16px;">Wind down, actually — not just doom-scroll until you pass out.</h2>
+        <div class="wd-list reveal">
+          <div class="wd-item">
+            <div class="wd-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12c2-5 5-8 9-8s7 3 9 8c-2 5-5 8-9 8s-7-3-9-8Z"/><circle cx="12" cy="12" r="2.5"/></svg></div>
+            <div>
+              <h4>Ambient sound library</h4>
+              <p>Ocean, rain, fire, white noise, and nature — streamed on demand, so the app itself stays light.</p>
+            </div>
+          </div>
+          <div class="wd-item">
+            <div class="wd-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M3 12h3M18 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg></div>
+            <div>
+              <h4>Guided wind-down sessions</h4>
+              <p>Short, breath-paced sessions instead of a fourth podcast episode you won't remember.</p>
+            </div>
+          </div>
+          <div class="wd-item">
+            <div class="wd-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg></div>
+            <div>
+              <h4>A sleep goal that talks to your alarm</h4>
+              <p>Set a bedtime once — the wind-down lock and next morning's alarm both follow it.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <img class="reveal" src="phones/winddown.png" alt="The Rise app's Wind-down screen, showing the bedtime goal, an apps-lock countdown, and ambient sound picker" />
+    </div>
+  </section>
+
+  <!-- ============ PRICING ============ -->
+  <section id="pricing">
+    <div class="wrap">
+      <div class="section-head center reveal">
+        <span class="pill"><span class="pill-dot"></span>Pricing</span>
+        <h2>One plan. Everything included.</h2>
+        <p>No tiers to compare, no features held back for a higher price. Just Rise, fully unlocked.</p>
+      </div>
+
+      <div class="price-card reveal">
+        <img src="mascot/celebrating.png" alt="" />
+        <div class="price-value">$8.99<span>/ month</span></div>
+        <div class="price-trial">Starts with a 15-day free trial</div>
+        <ul class="price-features">
+          <li><span class="price-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></span>Every wake-up task, sound, and ambient mix</li>
+          <li><span class="price-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></span>Wind-down routines and anti-scroll app locks</li>
+          <li><span class="price-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></span>Unlimited alarms and checklists</li>
+        </ul>
+        <a href="#download" class="btn btn-primary btn-block">Start your free trial</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section id="faq" style="background:var(--surface);">
+    <div class="wrap">
+      <div class="section-head center reveal">
+        <span class="pill"><span class="pill-dot"></span>FAQ</span>
+        <h2>Good questions.</h2>
+      </div>
+      <div class="faq-list reveal">
+        <details class="faq-item">
+          <summary>Will it actually go off if my phone's on silent or in a Focus mode?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </summary>
+          <div class="faq-body">Yes. Rise schedules real system alarms through Apple's AlarmKit — the same category the built-in Clock app uses. They ring through Silent Mode, Do Not Disturb, and every Focus.</div>
+        </details>
+        <details class="faq-item">
+          <summary>What happens if I force-quit the app?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </summary>
+          <div class="faq-body">The alarm still rings. It's scheduled at the OS level, not something Rise's own process has to stay alive for in the background.</div>
+        </details>
+        <details class="faq-item">
+          <summary>Can I still snooze?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </summary>
+          <div class="faq-body">Once, for five minutes, per alarm. After that snooze is used, the alarm keeps ringing until you finish the wake-up task — no infinite snoozing.</div>
+        </details>
+        <details class="faq-item">
+          <summary>Is the app locking a real block, or just a screen I can swipe past?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </summary>
+          <div class="faq-body">It's built on Apple's actual Screen Time / Family Controls APIs — the same system parental controls use. There's no in-app way around it; the only way out is finishing your checklist or waiting out the timer.</div>
+        </details>
+        <details class="faq-item">
+          <summary>What platforms is Rise on?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </summary>
+          <div class="faq-body">iOS, built specifically around AlarmKit and Screen Time — the two things that make the alarm and the app-locking genuinely real. That focus means no Android version for now.</div>
+        </details>
+        <details class="faq-item">
+          <summary>What do I need to get started?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </summary>
+          <div class="faq-body">An iPhone on iOS 26 or later. Download Rise, allow the alarm and Screen Time permissions when it asks, and set your first alarm — that's the whole setup.</div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DOWNLOAD ============ -->
+  <section>
+    <div class="wrap">
+      <div id="download" class="notify reveal">
+        <h2>Get Rise on your iPhone.</h2>
+        <p>One plan, everything included, 15-day free trial. Requires iOS 26 or later.</p>
+        <div class="store-row">
+          <a class="store-badge" href="https://apps.apple.com/app/rise" aria-label="Download Rise on the App Store">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.365 1.43c0 1.14-.462 2.11-1.24 2.86-.85.82-2.09 1.45-3.1 1.36-.13-1.09.47-2.24 1.2-2.95.83-.8 2.24-1.4 3.14-1.27ZM20.1 17.2c-.5 1.15-1.09 2.28-1.97 3.32-.83.98-1.7 1.95-3.03 1.98-1.28.03-1.7-.76-3.17-.76-1.48 0-1.94.74-3.15.79-1.29.05-2.27-1.07-3.11-2.04C3.94 18.5 2.8 15.28 3.6 12.55c.5-1.71 1.66-3.24 3.33-3.9 1.4-.55 2.83-.43 4.07.29 1.09.63 1.9.63 2.98-.02 1.43-.85 3.24-.9 4.7-.06 1.34.78 2.18 1.98 2.62 3.36-1.65.81-2.64 2.47-2.2 4.98Z"/></svg>
+            <span>
+              <em>Download on the</em>
+              App Store
+            </span>
+          </a>
+        </div>
+        <p class="notify-hint">Or search "Rise" on the App Store from your iPhone.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <a href="#top" class="foot-brand">
+        <img src="mascot/logo-mark.png" alt="" />
+        <span>Rise</span>
+      </a>
+      <nav class="foot-links" aria-label="Footer">
+        <a href="#feelings">Features</a>
+        <a href="#focus">Anti-scroll</a>
+        <a href="#winddown">Wind-down</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <a href="#download" class="btn btn-ghost btn-sm">Download</a>
+    </div>
+    <p class="foot-copy">© <span id="year"></span> Rise. Built for people who've promised themselves "just five more minutes" one too many times.</p>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    var header = document.getElementById('site-header');
+    var onScroll = function(){
+      header.classList.toggle('scrolled', window.scrollY > 4);
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    var menuBtn = document.getElementById('menu-btn');
+    var panel = document.getElementById('mobile-panel');
+    menuBtn.addEventListener('click', function(){
+      var open = panel.classList.toggle('open');
+      menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    panel.querySelectorAll('a').forEach(function(a){
+      a.addEventListener('click', function(){
+        panel.classList.remove('open');
+        menuBtn.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if ('IntersectionObserver' in window && !reduceMotion) {
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+    } else {
+      document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in'); });
+    }
+  })();
+</script>
