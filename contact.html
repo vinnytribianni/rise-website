@@ -1,0 +1,288 @@
+<title>Rise Support</title>
+<link rel="icon" type="image/png" href="mascot/logo-mark.png">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@800&family=Manrope:wght@400;500;600;700&display=swap');
+
+  :root{
+    --cream:#FBF0E1; --cream2:#FFFDF9;
+    --ink:#2B2118; --ink-soft:#6B5D4F; --ink-faint:#9C8C7B;
+    --border-light:rgba(43,33,24,0.08);
+    --orange:#E8622C; --orange-dark:#C94F1E; --orange-soft:#FBDCC9;
+    --gold-soft:#FBEBC7; --gold-text:#8A6414;
+    --lavender-soft:#E4E9F7; --lavender-text:#48588C;
+    --sage-soft:#DCE9DD; --sage-text:#345A3B;
+    --coral-soft:#FBE1E7; --coral-text:#9C3A56;
+    --success:#6FA37A;
+
+    --dark-bg:#1C1B1E; --dark-card:#29282D; --dark-card2:#323136;
+    --dark-text:#F5E9DA; --dark-text-soft:#B7A996; --dark-text-faint:#7C7369;
+    --border-dark:rgba(245,233,218,0.10);
+
+    --bg:var(--cream); --surface:var(--cream2); --surface-raised:#fff;
+    --text:var(--ink); --text-soft:var(--ink-soft); --text-faint:var(--ink-faint);
+    --border:var(--border-light);
+    --accent:var(--orange); --accent-dark:var(--orange-dark); --accent-soft:var(--orange-soft);
+    --shadow: 0 1px 2px rgba(43,33,24,0.04);
+
+    font-size: 16px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:var(--dark-bg); --surface:var(--dark-card); --surface-raised:var(--dark-card2);
+      --text:var(--dark-text); --text-soft:var(--dark-text-soft); --text-faint:var(--dark-text-faint);
+      --border:var(--border-dark); --accent-soft:rgba(232,98,44,0.22);
+      --shadow: 0 1px 2px rgba(0,0,0,0.3);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:var(--dark-bg); --surface:var(--dark-card); --surface-raised:var(--dark-card2);
+    --text:var(--dark-text); --text-soft:var(--dark-text-soft); --text-faint:var(--dark-text-faint);
+    --border:var(--border-dark); --accent-soft:rgba(232,98,44,0.22);
+    --shadow: 0 1px 2px rgba(0,0,0,0.3);
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; }
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:'Manrope',ui-sans-serif,system-ui,-apple-system,sans-serif;
+    font-size:1rem; line-height:1.55;
+    padding-inline:0;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2{ font-family:'Nunito',ui-rounded,'Segoe UI',sans-serif; font-weight:800; letter-spacing:-0.01em; text-wrap:balance; margin:0; }
+  p{ margin:0; }
+  a{ color:inherit; }
+  img{ max-width:100%; display:block; }
+  ul{ margin:0; padding:0; list-style:none; }
+  button{ font:inherit; }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important; }
+  }
+
+  .wrap{ max-width:1120px; margin-inline:auto; padding-inline:20px; }
+  @media (min-width:640px){ .wrap{ padding-inline:32px; } }
+
+  .reveal{ opacity:0; transform:translateY(14px); transition:opacity .6s ease, transform .6s ease; }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  /* ---------- header ---------- */
+  header{
+    position:sticky; top:env(safe-area-inset-top,0px); z-index:50;
+    background:color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+    border-bottom:1px solid transparent;
+    transition:border-color .25s ease, background .25s ease;
+  }
+  header.scrolled{ border-bottom-color:var(--border); }
+  .nav{ display:flex; align-items:center; justify-content:space-between; gap:16px; padding-block:14px; }
+  .brand{ display:flex; align-items:center; gap:10px; text-decoration:none; }
+  .brand img{ width:34px; height:34px; object-fit:contain; }
+  .brand-word{ font-family:'Nunito',sans-serif; font-weight:800; font-size:1.2rem; color:var(--accent); }
+  .nav-links{ display:none; align-items:center; gap:28px; }
+  .nav-links a{ text-decoration:none; font-weight:600; font-size:0.92rem; color:var(--text-soft); transition:color .15s ease; }
+  .nav-links a:hover, .nav-links a.current{ color:var(--accent); }
+  @media (min-width:860px){ .nav-links{ display:flex; } }
+  .nav-right{ display:flex; align-items:center; gap:10px; }
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    border-radius:999px; font-weight:700; font-size:0.92rem; text-decoration:none;
+    padding:11px 20px; border:1px solid transparent; cursor:pointer; white-space:nowrap;
+    transition:transform .15s ease, box-shadow .15s ease, background .15s ease, border-color .15s ease;
+  }
+  .btn:active{ transform:scale(0.97); }
+  .btn-primary{ background:var(--accent); color:#fff; box-shadow:0 6px 16px -6px rgba(232,98,44,0.55); }
+  .btn-primary:hover{ background:var(--accent-dark); }
+  .btn-ghost{ background:transparent; color:var(--text); border-color:var(--border); }
+  .btn-ghost:hover{ border-color:var(--accent); color:var(--accent); }
+  .btn-sm{ padding:9px 16px; font-size:0.85rem; }
+
+  .menu-btn{
+    display:flex; width:40px; height:40px; align-items:center; justify-content:center;
+    border-radius:10px; border:1px solid var(--border); background:var(--surface); cursor:pointer;
+  }
+  @media (min-width:860px){ .menu-btn{ display:none; } }
+  .menu-btn span, .menu-btn span::before, .menu-btn span::after{
+    content:''; display:block; width:18px; height:2px; background:var(--text); border-radius:2px; position:relative; transition:transform .2s ease, opacity .2s ease;
+  }
+  .menu-btn span::before{ position:absolute; top:-6px; }
+  .menu-btn span::after{ position:absolute; top:6px; }
+  .menu-btn[aria-expanded="true"] span{ background:transparent; }
+  .menu-btn[aria-expanded="true"] span::before{ top:0; transform:rotate(45deg); background:var(--text); }
+  .menu-btn[aria-expanded="true"] span::after{ top:0; transform:rotate(-45deg); background:var(--text); }
+
+  .mobile-panel{ display:none; border-top:1px solid var(--border); background:var(--bg); }
+  .mobile-panel.open{ display:block; }
+  .mobile-panel ul{ display:flex; flex-direction:column; padding:14px 20px 18px; gap:2px; }
+  .mobile-panel a{ display:block; padding:12px 4px; text-decoration:none; font-weight:700; color:var(--text); border-bottom:1px solid var(--border); }
+  .mobile-panel li:last-child a{ border-bottom:none; }
+
+  .pill{
+    display:inline-flex; align-items:center; gap:7px; padding:6px 14px; border-radius:999px;
+    background:var(--accent-soft); color:var(--accent-dark); font-weight:700; font-size:0.78rem;
+    letter-spacing:0.02em; text-transform:uppercase;
+  }
+  .pill-dot{ width:6px; height:6px; border-radius:999px; background:var(--accent-dark); }
+
+  /* ---------- page hero ---------- */
+  .page-hero{ padding-block:64px 36px; text-align:center; }
+  @media (min-width:760px){ .page-hero{ padding-block:88px 48px; } }
+  .page-hero h1{ font-size:clamp(2rem, 5vw, 3rem); line-height:1.08; margin-block:16px 14px; }
+  .page-hero h1 em{ font-style:normal; color:var(--accent); }
+  .page-hero p{ font-size:1.05rem; color:var(--text-soft); max-width:52ch; margin-inline:auto; }
+
+  section{ padding-block:24px 80px; scroll-margin-top:76px; }
+  #top{ scroll-margin-top:0; }
+
+  /* ---------- contact ---------- */
+  .contact-grid{ display:grid; gap:16px; grid-template-columns:1fr; max-width:760px; margin-inline:auto; }
+  @media (min-width:640px){ .contact-grid{ grid-template-columns:repeat(2,1fr); } }
+  .contact-card{
+    display:block; text-decoration:none; color:inherit; border-radius:20px; padding:28px 26px;
+    background:var(--surface-raised); border:1px solid var(--border);
+    transition:transform .15s ease, border-color .15s ease;
+  }
+  .contact-card:hover{ transform:translateY(-2px); border-color:var(--accent); }
+  .contact-icon{ width:40px; height:40px; border-radius:12px; background:var(--accent-soft); color:var(--accent-dark); display:flex; align-items:center; justify-content:center; margin-bottom:16px; }
+  .contact-card h2{ font-size:1.08rem; margin-bottom:8px; }
+  .contact-card p{ font-size:0.92rem; color:var(--text-soft); line-height:1.55; }
+  .contact-link{ display:inline-block; margin-top:16px; font-size:0.88rem; font-weight:800; color:var(--accent-dark); }
+  .contact-note{ text-align:center; margin-top:28px; font-size:0.9rem; color:var(--text-faint); }
+  .contact-note a{ color:var(--accent-dark); font-weight:700; text-decoration:underline; }
+
+  a:focus-visible, button:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; border-radius:8px; }
+
+  /* ---------- footer ---------- */
+  footer{ padding-block:44px; border-top:1px solid var(--border); }
+  .foot-grid{ display:flex; flex-wrap:wrap; gap:24px; align-items:center; justify-content:space-between; }
+  .foot-brand{ display:flex; align-items:center; gap:10px; }
+  .foot-brand img{ width:28px; height:28px; }
+  .foot-brand span{ font-family:'Nunito',sans-serif; font-weight:800; color:var(--accent); }
+  .foot-links{ display:flex; gap:20px; flex-wrap:wrap; }
+  .foot-links a{ font-size:0.85rem; color:var(--text-soft); text-decoration:none; font-weight:600; }
+  .foot-links a:hover{ color:var(--accent); }
+  .foot-copy{ font-size:0.78rem; color:var(--text-faint); margin-top:22px; text-align:center; }
+</style>
+
+<div id="top"></div>
+<header id="site-header">
+  <div class="wrap nav">
+    <a href="index.html" class="brand">
+      <img src="mascot/logo-mark.png" alt="" />
+      <span class="brand-word">rise</span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="index.html#feelings">Features</a>
+      <a href="index.html#focus">Anti-scroll</a>
+      <a href="index.html#winddown">Wind-down</a>
+      <a href="index.html#faq">FAQ</a>
+      <a href="contact.html" class="current">Contact</a>
+    </nav>
+    <div class="nav-right">
+      <a href="index.html#download" class="btn btn-primary btn-sm">Download</a>
+      <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="mobile-panel" aria-label="Toggle menu">
+        <span></span>
+      </button>
+    </div>
+  </div>
+  <div class="mobile-panel" id="mobile-panel">
+    <ul>
+      <li><a href="index.html#feelings">Features</a></li>
+      <li><a href="index.html#focus">Anti-scroll</a></li>
+      <li><a href="index.html#winddown">Wind-down</a></li>
+      <li><a href="index.html#faq">FAQ</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+  <section class="page-hero">
+    <div class="wrap">
+      <span class="pill reveal"><span class="pill-dot"></span>Support</span>
+      <h1 class="reveal">Stuck on something? <em>Tell us.</em></h1>
+      <p class="reveal">Real inbox, no ticket queue — every message goes straight to the person who builds Rise.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="contact-grid">
+        <a class="contact-card reveal" href="mailto:vinnytribianni@gmail.com?subject=Rise%20bug%20report&body=What%20happened%3A%0A%0AWhat%20I%20expected%20instead%3A%0A%0APhone%20%26%20iOS%20version%3A">
+          <div class="contact-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></div>
+          <h2>Report a bug</h2>
+          <p>An alarm that didn't ring, a lock that didn't lift, a crash — tell us what happened and what you expected instead.</p>
+          <span class="contact-link">Email a bug report →</span>
+        </a>
+        <a class="contact-card reveal" href="mailto:vinnytribianni@gmail.com?subject=Rise%20question">
+          <div class="contact-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg></div>
+          <h2>Ask a question</h2>
+          <p>Not sure how something works, or want to see a feature that isn't there yet? Ask away.</p>
+          <span class="contact-link">Send a question →</span>
+        </a>
+      </div>
+      <p class="contact-note reveal">Looking for a quick answer instead? Check the <a href="index.html#faq">FAQ</a>.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <a href="index.html" class="foot-brand">
+        <img src="mascot/logo-mark.png" alt="" />
+        <span>rise</span>
+      </a>
+      <nav class="foot-links" aria-label="Footer">
+        <a href="index.html#feelings">Features</a>
+        <a href="index.html#focus">Anti-scroll</a>
+        <a href="index.html#winddown">Wind-down</a>
+        <a href="index.html#faq">FAQ</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <a href="index.html#download" class="btn btn-ghost btn-sm">Download</a>
+    </div>
+    <p class="foot-copy">© <span id="year"></span> Rise. Built for people who've promised themselves "just five more minutes" one too many times.</p>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    var header = document.getElementById('site-header');
+    var onScroll = function(){
+      header.classList.toggle('scrolled', window.scrollY > 4);
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    var menuBtn = document.getElementById('menu-btn');
+    var panel = document.getElementById('mobile-panel');
+    menuBtn.addEventListener('click', function(){
+      var open = panel.classList.toggle('open');
+      menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    panel.querySelectorAll('a').forEach(function(a){
+      a.addEventListener('click', function(){
+        panel.classList.remove('open');
+        menuBtn.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if ('IntersectionObserver' in window && !reduceMotion) {
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+    } else {
+      document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in'); });
+    }
+  })();
+</script>
