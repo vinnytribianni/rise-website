@@ -1,0 +1,224 @@
+<title>Rise Terms of Use</title>
+<link rel="icon" type="image/png" href="mascot/logo-mark.png">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@800&family=Manrope:wght@400;500;600;700&display=swap');
+
+  :root{
+    --cream:#FBF0E1; --cream2:#FFFDF9;
+    --ink:#2B2118; --ink-soft:#6B5D4F; --ink-faint:#9C8C7B;
+    --border-light:rgba(43,33,24,0.08);
+    --orange:#E8622C; --orange-dark:#C94F1E; --orange-soft:#FBDCC9;
+    --success:#6FA37A;
+
+    --dark-bg:#1C1B1E; --dark-card:#29282D; --dark-card2:#323136;
+    --dark-text:#F5E9DA; --dark-text-soft:#B7A996; --dark-text-faint:#7C7369;
+    --border-dark:rgba(245,233,218,0.10);
+
+    --bg:var(--cream); --surface:var(--cream2); --surface-raised:#fff;
+    --text:var(--ink); --text-soft:var(--ink-soft); --text-faint:var(--ink-faint);
+    --border:var(--border-light);
+    --accent:var(--orange); --accent-dark:var(--orange-dark); --accent-soft:var(--orange-soft);
+
+    font-size: 16px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:var(--dark-bg); --surface:var(--dark-card); --surface-raised:var(--dark-card2);
+      --text:var(--dark-text); --text-soft:var(--dark-text-soft); --text-faint:var(--dark-text-faint);
+      --border:var(--border-dark); --accent-soft:rgba(232,98,44,0.22);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:var(--dark-bg); --surface:var(--dark-card); --surface-raised:var(--dark-card2);
+    --text:var(--dark-text); --text-soft:var(--dark-text-soft); --text-faint:var(--dark-text-faint);
+    --border:var(--border-dark); --accent-soft:rgba(232,98,44,0.22);
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; }
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:'Manrope',ui-sans-serif,system-ui,-apple-system,sans-serif;
+    font-size:1rem; line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2{ font-family:'Nunito',ui-rounded,'Segoe UI',sans-serif; font-weight:800; letter-spacing:-0.01em; text-wrap:balance; margin:0; }
+  p,ul,ol{ margin:0; }
+  a{ color:var(--accent-dark); font-weight:700; }
+  img{ max-width:100%; display:block; }
+  ul,ol{ list-style:none; }
+
+  .wrap{ max-width:760px; margin-inline:auto; padding-inline:20px; }
+  @media (min-width:640px){ .wrap{ padding-inline:32px; } }
+
+  header{
+    position:sticky; top:env(safe-area-inset-top,0px); z-index:50;
+    background:color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+    border-bottom:1px solid transparent; transition:border-color .25s ease;
+  }
+  header.scrolled{ border-bottom-color:var(--border); }
+  .nav{ display:flex; align-items:center; justify-content:space-between; gap:16px; padding-block:14px; max-width:1120px; margin-inline:auto; padding-inline:20px; }
+  @media (min-width:640px){ .nav{ padding-inline:32px; } }
+  .brand{ display:flex; align-items:center; gap:10px; text-decoration:none; }
+  .brand img{ width:34px; height:34px; object-fit:contain; }
+  .brand-word{ font-family:'Nunito',sans-serif; font-weight:800; font-size:1.2rem; color:var(--accent); }
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    border-radius:999px; font-weight:700; font-size:0.85rem; text-decoration:none;
+    padding:9px 16px; border:1px solid var(--border); color:var(--text); background:transparent;
+    transition:border-color .15s ease, color .15s ease;
+  }
+  .btn:hover{ border-color:var(--accent); color:var(--accent); }
+
+  main{ padding-block:48px 80px; }
+  .doc-header{ margin-bottom:36px; }
+  .doc-header h1{ font-size:clamp(1.8rem, 5vw, 2.4rem); margin-bottom:8px; }
+  .doc-header p{ color:var(--text-faint); font-size:0.9rem; }
+
+  section{ margin-top:32px; }
+  section h2{ font-size:1.15rem; margin-bottom:10px; }
+  section p, section li{ color:var(--text-soft); font-size:0.95rem; }
+  section p + p{ margin-top:10px; }
+  section ul{ margin-top:10px; display:flex; flex-direction:column; gap:8px; }
+  section li{ padding-left:20px; position:relative; }
+  section li::before{ content:'—'; position:absolute; left:0; color:var(--text-faint); }
+
+  .callout{
+    margin-top:32px; padding:18px 20px; border-radius:16px; background:var(--surface-raised);
+    border:1px solid var(--border);
+  }
+  .callout p{ color:var(--text-soft); font-size:0.9rem; }
+
+  footer{ padding-block:36px; border-top:1px solid var(--border); }
+  .foot-grid{ display:flex; flex-wrap:wrap; gap:16px; align-items:center; justify-content:space-between; max-width:1120px; margin-inline:auto; padding-inline:20px; }
+  @media (min-width:640px){ .foot-grid{ padding-inline:32px; } }
+  .foot-brand{ display:flex; align-items:center; gap:10px; text-decoration:none; }
+  .foot-brand img{ width:28px; height:28px; }
+  .foot-brand span{ font-family:'Nunito',sans-serif; font-weight:800; color:var(--accent); }
+  .foot-links{ display:flex; gap:18px; flex-wrap:wrap; }
+  .foot-links a{ font-size:0.85rem; color:var(--text-soft); text-decoration:none; font-weight:600; }
+  .foot-links a:hover{ color:var(--accent); }
+</style>
+
+<header id="site-header">
+  <div class="nav">
+    <a href="index.html" class="brand">
+      <img src="mascot/logo-mark.png" alt="" />
+      <span class="brand-word">rise</span>
+    </a>
+    <a href="index.html" class="btn">← Back to Rise</a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="doc-header">
+      <h1>Terms of Use</h1>
+      <p>Last updated September 23, 2026</p>
+    </div>
+
+    <section>
+      <p>
+        These terms cover your use of the Rise app. By creating an account or using Rise, you agree
+        to them. If you don't agree, please don't use the app.
+      </p>
+    </section>
+
+    <section>
+      <h2>Your account</h2>
+      <p>
+        You're responsible for keeping your account credentials secure and for what happens under
+        your account. You must be able to legally agree to these terms to use Rise.
+      </p>
+    </section>
+
+    <section>
+      <h2>Subscription &amp; billing</h2>
+      <p>
+        Rise is a paid subscription app, billed through your Apple ID via the App Store. Payment is
+        charged to your Apple ID at confirmation of purchase. Subscriptions renew automatically
+        unless auto-renew is turned off at least 24 hours before the end of the current period. You
+        can manage or cancel your subscription any time in your Apple ID subscription settings.
+      </p>
+      <p>
+        Where a free trial is offered, any unused portion is forfeited when you purchase a
+        subscription, if applicable. We don't process refunds directly — refund requests for App
+        Store purchases go through Apple.
+      </p>
+    </section>
+
+    <section>
+      <h2>Acceptable use</h2>
+      <p>You agree not to:</p>
+      <ul>
+        <li>Use Rise for anything illegal, or to harass or harm anyone else</li>
+        <li>Attempt to bypass, abuse, or overload Rise's servers, rate limits, or verification systems</li>
+        <li>Reverse-engineer, decompile, or tamper with the app beyond what's permitted by law</li>
+        <li>Use another person's account without permission</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>App locking</h2>
+      <p>
+        Rise's app-locking feature restricts apps you yourself choose, on your own device, using
+        Apple's Screen Time controls. It's a self-control tool — you're always in control of which
+        apps are selected and when locking is turned on, and Rise never restricts anything without
+        your setup.
+      </p>
+    </section>
+
+    <section>
+      <h2>Disclaimer</h2>
+      <p>
+        Rise is provided "as is." While we build it to be reliable, no alarm app — including one
+        built on real system alarms — can guarantee it will wake you up under every possible
+        condition (a dead phone, a fully silenced device beyond what the OS allows overriding,
+        an OS-level failure, etc). Don't rely on Rise as your only safeguard for something where
+        being late has serious consequences.
+      </p>
+    </section>
+
+    <section>
+      <h2>Termination</h2>
+      <p>
+        You can delete your account at any time from Settings → Delete account. We may suspend or
+        terminate access for accounts that violate these terms.
+      </p>
+    </section>
+
+    <section>
+      <h2>Changes</h2>
+      <p>
+        We may update these terms as Rise changes. If we make a material change, we'll update the
+        date at the top of this page.
+      </p>
+    </section>
+
+    <div class="callout">
+      <p>Questions about these terms? <a href="contact.html">Reach out</a> — every message goes straight to the person who builds Rise.</p>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="foot-grid">
+    <a href="index.html" class="foot-brand">
+      <img src="mascot/logo-mark.png" alt="" />
+      <span>rise</span>
+    </a>
+    <nav class="foot-links" aria-label="Footer">
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var header = document.getElementById('site-header');
+    var onScroll = function(){ header.classList.toggle('scrolled', window.scrollY > 4); };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  })();
+</script>

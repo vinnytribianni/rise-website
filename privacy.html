@@ -1,0 +1,265 @@
+<title>Rise Privacy Policy</title>
+<link rel="icon" type="image/png" href="mascot/logo-mark.png">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@800&family=Manrope:wght@400;500;600;700&display=swap');
+
+  :root{
+    --cream:#FBF0E1; --cream2:#FFFDF9;
+    --ink:#2B2118; --ink-soft:#6B5D4F; --ink-faint:#9C8C7B;
+    --border-light:rgba(43,33,24,0.08);
+    --orange:#E8622C; --orange-dark:#C94F1E; --orange-soft:#FBDCC9;
+    --success:#6FA37A;
+
+    --dark-bg:#1C1B1E; --dark-card:#29282D; --dark-card2:#323136;
+    --dark-text:#F5E9DA; --dark-text-soft:#B7A996; --dark-text-faint:#7C7369;
+    --border-dark:rgba(245,233,218,0.10);
+
+    --bg:var(--cream); --surface:var(--cream2); --surface-raised:#fff;
+    --text:var(--ink); --text-soft:var(--ink-soft); --text-faint:var(--ink-faint);
+    --border:var(--border-light);
+    --accent:var(--orange); --accent-dark:var(--orange-dark); --accent-soft:var(--orange-soft);
+
+    font-size: 16px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:var(--dark-bg); --surface:var(--dark-card); --surface-raised:var(--dark-card2);
+      --text:var(--dark-text); --text-soft:var(--dark-text-soft); --text-faint:var(--dark-text-faint);
+      --border:var(--border-dark); --accent-soft:rgba(232,98,44,0.22);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:var(--dark-bg); --surface:var(--dark-card); --surface-raised:var(--dark-card2);
+    --text:var(--dark-text); --text-soft:var(--dark-text-soft); --text-faint:var(--dark-text-faint);
+    --border:var(--border-dark); --accent-soft:rgba(232,98,44,0.22);
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; }
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:'Manrope',ui-sans-serif,system-ui,-apple-system,sans-serif;
+    font-size:1rem; line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2{ font-family:'Nunito',ui-rounded,'Segoe UI',sans-serif; font-weight:800; letter-spacing:-0.01em; text-wrap:balance; margin:0; }
+  p,ul,ol{ margin:0; }
+  a{ color:var(--accent-dark); font-weight:700; }
+  img{ max-width:100%; display:block; }
+  ul,ol{ list-style:none; }
+
+  .wrap{ max-width:760px; margin-inline:auto; padding-inline:20px; }
+  @media (min-width:640px){ .wrap{ padding-inline:32px; } }
+
+  header{
+    position:sticky; top:env(safe-area-inset-top,0px); z-index:50;
+    background:color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+    border-bottom:1px solid transparent; transition:border-color .25s ease;
+  }
+  header.scrolled{ border-bottom-color:var(--border); }
+  .nav{ display:flex; align-items:center; justify-content:space-between; gap:16px; padding-block:14px; max-width:1120px; margin-inline:auto; padding-inline:20px; }
+  @media (min-width:640px){ .nav{ padding-inline:32px; } }
+  .brand{ display:flex; align-items:center; gap:10px; text-decoration:none; }
+  .brand img{ width:34px; height:34px; object-fit:contain; }
+  .brand-word{ font-family:'Nunito',sans-serif; font-weight:800; font-size:1.2rem; color:var(--accent); }
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    border-radius:999px; font-weight:700; font-size:0.85rem; text-decoration:none;
+    padding:9px 16px; border:1px solid var(--border); color:var(--text); background:transparent;
+    transition:border-color .15s ease, color .15s ease;
+  }
+  .btn:hover{ border-color:var(--accent); color:var(--accent); }
+
+  main{ padding-block:48px 80px; }
+  .doc-header{ margin-bottom:36px; }
+  .doc-header h1{ font-size:clamp(1.8rem, 5vw, 2.4rem); margin-bottom:8px; }
+  .doc-header p{ color:var(--text-faint); font-size:0.9rem; }
+
+  section{ margin-top:32px; }
+  section h2{ font-size:1.15rem; margin-bottom:10px; }
+  section p, section li{ color:var(--text-soft); font-size:0.95rem; }
+  section p + p{ margin-top:10px; }
+  section ul{ margin-top:10px; display:flex; flex-direction:column; gap:8px; }
+  section li{ padding-left:20px; position:relative; }
+  section li::before{ content:'—'; position:absolute; left:0; color:var(--text-faint); }
+
+  .callout{
+    margin-top:32px; padding:18px 20px; border-radius:16px; background:var(--surface-raised);
+    border:1px solid var(--border);
+  }
+  .callout p{ color:var(--text-soft); font-size:0.9rem; }
+
+  footer{ padding-block:36px; border-top:1px solid var(--border); }
+  .foot-grid{ display:flex; flex-wrap:wrap; gap:16px; align-items:center; justify-content:space-between; max-width:1120px; margin-inline:auto; padding-inline:20px; }
+  @media (min-width:640px){ .foot-grid{ padding-inline:32px; } }
+  .foot-brand{ display:flex; align-items:center; gap:10px; text-decoration:none; }
+  .foot-brand img{ width:28px; height:28px; }
+  .foot-brand span{ font-family:'Nunito',sans-serif; font-weight:800; color:var(--accent); }
+  .foot-links{ display:flex; gap:18px; flex-wrap:wrap; }
+  .foot-links a{ font-size:0.85rem; color:var(--text-soft); text-decoration:none; font-weight:600; }
+  .foot-links a:hover{ color:var(--accent); }
+</style>
+
+<header id="site-header">
+  <div class="nav">
+    <a href="index.html" class="brand">
+      <img src="mascot/logo-mark.png" alt="" />
+      <span class="brand-word">rise</span>
+    </a>
+    <a href="index.html" class="btn">← Back to Rise</a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="doc-header">
+      <h1>Privacy Policy</h1>
+      <p>Last updated September 23, 2026</p>
+    </div>
+
+    <section>
+      <p>
+        Rise is a wake-up alarm app. This page explains what information Rise collects, why, and who
+        it's shared with. If anything here is unclear, <a href="contact.html">get in touch</a> —
+        happy to explain in plain terms.
+      </p>
+    </section>
+
+    <section>
+      <h2>Account information</h2>
+      <p>
+        Creating a Rise account requires an email address and password, handled by our backend
+        provider, Supabase. We also store the display name and profile photo you choose to add.
+      </p>
+    </section>
+
+    <section>
+      <h2>Alarms, checklists, and streak history</h2>
+      <p>
+        Rise stores the alarms, wake-up tasks, checklists, and wind-down settings you create, along
+        with a history of when you woke up on time, so it can show your streak. This data is tied to
+        your account and is never sold or shared with advertisers — Rise has no advertising or
+        analytics tracking of any kind.
+      </p>
+    </section>
+
+    <section>
+      <h2>Camera &amp; wake-up task photos</h2>
+      <p>
+        Some wake-up tasks (making your bed, scanning an item, a stretch or exercise) ask for a
+        photo to confirm you actually did it. That photo is sent, at the moment you take it, to
+        Anthropic's Claude AI to check whether it plausibly matches the task — for example, whether
+        a bed looks made. Rise does not store these photos after that check; they exist only for the
+        few seconds it takes to verify them, and are not retained by Rise's servers or shared for any
+        other purpose.
+      </p>
+    </section>
+
+    <section>
+      <h2>Microphone &amp; speech</h2>
+      <p>
+        A few wake-up tasks ask you to read a sentence aloud. That's checked using your device's own
+        on-device speech recognition (Apple's Speech framework) — Rise does not receive, transmit, or
+        store the audio or transcript itself.
+      </p>
+    </section>
+
+    <section>
+      <h2>Motion &amp; step data</h2>
+      <p>
+        Some wake-up tasks use your device's motion sensor or step counter (for a "shake your phone"
+        or "take some steps" task). This data is read live from the device to check task completion
+        and is not stored or transmitted anywhere.
+      </p>
+    </section>
+
+    <section>
+      <h2>App locking (Screen Time)</h2>
+      <p>
+        If you turn on Rise's app-locking feature, it uses Apple's Screen Time (Family Controls) API
+        to restrict apps you choose until your morning checklist is done. Apple's framework
+        deliberately never reveals to Rise (or any app) which specific apps you selected — Rise only
+        receives an opaque, private reference it can use to apply or lift the restriction. Rise never
+        sees your app usage history.
+      </p>
+    </section>
+
+    <section>
+      <h2>Alarms &amp; notifications</h2>
+      <p>
+        Rise uses Apple's AlarmKit and local notifications to ring your alarms, including while your
+        phone is locked or the app is closed. This runs on your device through Apple's own systems
+        and doesn't involve sending your alarm schedule anywhere outside your account's normal
+        backup with our backend provider.
+      </p>
+    </section>
+
+    <section>
+      <h2>Subscriptions &amp; payment</h2>
+      <p>
+        Rise subscriptions are billed entirely through Apple's App Store. Rise never sees or stores
+        your payment card details — that's handled by Apple. We use RevenueCat to keep track of
+        whether your subscription is active, which only receives your anonymous subscriber ID and
+        purchase status, not your payment information.
+      </p>
+    </section>
+
+    <section>
+      <h2>Who Rise shares data with</h2>
+      <ul>
+        <li><strong>Supabase</strong> — hosts your account, alarms, and app data</li>
+        <li><strong>Anthropic</strong> — verifies wake-up task photos (see above); doesn't retain them</li>
+        <li><strong>Apple</strong> — App Store payments, AlarmKit, Screen Time, on-device speech recognition</li>
+        <li><strong>RevenueCat</strong> — subscription status tracking</li>
+      </ul>
+      <p>Rise does not sell your data, and does not use any advertising or cross-app tracking SDKs.</p>
+    </section>
+
+    <section>
+      <h2>Deleting your data</h2>
+      <p>
+        You can permanently delete your account and everything tied to it — alarms, checklists,
+        streak history, photos — at any time from Settings → Delete account inside the app. This
+        can't be undone.
+      </p>
+    </section>
+
+    <section>
+      <h2>Children</h2>
+      <p>Rise is not directed at children under 13, and we don't knowingly collect data from them.</p>
+    </section>
+
+    <section>
+      <h2>Changes to this policy</h2>
+      <p>
+        If this policy changes in a meaningful way, we'll update the date at the top of this page.
+      </p>
+    </section>
+
+    <div class="callout">
+      <p>Questions about any of this? <a href="contact.html">Reach out</a> — every message goes straight to the person who builds Rise.</p>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="foot-grid">
+    <a href="index.html" class="foot-brand">
+      <img src="mascot/logo-mark.png" alt="" />
+      <span>rise</span>
+    </a>
+    <nav class="foot-links" aria-label="Footer">
+      <a href="terms.html">Terms of Use</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var header = document.getElementById('site-header');
+    var onScroll = function(){ header.classList.toggle('scrolled', window.scrollY > 4); };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  })();
+</script>
