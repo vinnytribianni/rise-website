@@ -1,6 +1,19 @@
 <title>Rise</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="icon" type="image/png" href="mascot/logo-mark.png">
+<link rel="icon" type="image/png" href="/mascot/logo-mark.png">
+<meta name="description" content="Rise is the alarm app that actually gets you up — wind-down routines, anti-scroll focus tools, and wake-up tasks that make sure you're really awake.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Rise">
+<meta property="og:title" content="Rise — the alarm that gets you up">
+<meta property="og:description" content="Wind-down routines, anti-scroll focus tools, and wake-up tasks that make sure you're really awake.">
+<meta property="og:url" content="https://rise-alarm.app/">
+<meta property="og:image" content="https://rise-alarm.app/mascot/og-preview.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Rise — the alarm that gets you up">
+<meta name="twitter:description" content="Wind-down routines, anti-scroll focus tools, and wake-up tasks that make sure you're really awake.">
+<meta name="twitter:image" content="https://rise-alarm.app/mascot/og-preview.png">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@800&family=Manrope:wght@400;500;600;700&display=swap');
 
@@ -307,7 +320,7 @@
 <header id="site-header">
   <div class="wrap nav">
     <a href="#top" class="brand">
-      <img src="mascot/logo-mark.png" alt="" />
+      <img src="/mascot/logo-mark.png" alt="" />
       <span class="brand-word">rise</span>
     </a>
     <nav class="nav-links" aria-label="Primary">
@@ -315,7 +328,7 @@
       <a href="#focus">Anti-scroll</a>
       <a href="#winddown">Wind-down</a>
       <a href="#faq">FAQ</a>
-      <a href="contact.html">Contact</a>
+      <a href="/contact">Contact</a>
     </nav>
     <div class="nav-right">
       <a href="#download" class="btn btn-primary btn-sm">Download</a>
@@ -330,7 +343,7 @@
       <li><a href="#focus">Anti-scroll</a></li>
       <li><a href="#winddown">Wind-down</a></li>
       <li><a href="#faq">FAQ</a></li>
-      <li><a href="contact.html">Contact</a></li>
+      <li><a href="/contact">Contact</a></li>
     </ul>
   </div>
 </header>
@@ -356,7 +369,7 @@
             3 mornings on time
           </div>
         </div>
-        <img class="hero-phone" src="phones/home.png" alt="The Rise app's Home screen on an iPhone, showing today's alarm, morning checklist, and quick actions" />
+        <img class="hero-phone" src="/phones/home.png" alt="The Rise app's Home screen on an iPhone, showing today's alarm, morning checklist, and quick actions" />
         <div class="float-card card-2">
           <div class="fc-tag">Locked</div>
           <div class="fc-task" style="margin-top:0;">
@@ -456,7 +469,7 @@
       </div>
 
       <div class="tasks-media">
-        <img src="phones/edit-alarm.png" alt="Editing an alarm in Rise, with Energized and Focused feelings picked and Quick Math among the wake-up tasks" />
+        <img src="/phones/edit-alarm.png" alt="Editing an alarm in Rise, with Energized and Focused feelings picked and Quick Math among the wake-up tasks" />
         <div>
           <div class="note-card reveal">
             <p>Mix feelings, pick up to three tasks, and set the difficulty — your alarm, your rules.</p>
@@ -519,7 +532,7 @@
       </div>
 
       <div class="tasks-media">
-        <img src="phones/wake.png" alt="Rise's wake screen mid-task, asking the user to find and photograph a pair of shoes to silence the alarm" />
+        <img src="/phones/wake.png" alt="Rise's wake screen mid-task, asking the user to find and photograph a pair of shoes to silence the alarm" />
         <div>
           <div class="note-card reveal">
             <p>Snoozing once buys you five minutes. Snooze again and the alarm just keeps ringing until the task is actually done — no more negotiating with 6am you.</p>
@@ -599,7 +612,7 @@
           </div>
         </div>
       </div>
-      <img class="reveal" src="phones/winddown.png" alt="The Rise app's Wind-down screen, showing the bedtime goal, an apps-lock countdown, and ambient sound picker" />
+      <img class="reveal" src="/phones/winddown.png" alt="The Rise app's Wind-down screen, showing the bedtime goal, an apps-lock countdown, and ambient sound picker" />
     </div>
   </section>
 
@@ -676,7 +689,7 @@
   <div class="wrap">
     <div class="foot-grid">
       <a href="#top" class="foot-brand">
-        <img src="mascot/logo-mark.png" alt="" />
+        <img src="/mascot/logo-mark.png" alt="" />
         <span>rise</span>
       </a>
       <nav class="foot-links" aria-label="Footer">
@@ -684,9 +697,9 @@
         <a href="#focus">Anti-scroll</a>
         <a href="#winddown">Wind-down</a>
         <a href="#faq">FAQ</a>
-        <a href="contact.html">Contact</a>
-        <a href="privacy.html">Privacy</a>
-        <a href="terms.html">Terms</a>
+        <a href="/contact">Contact</a>
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
       </nav>
       <a href="#download" class="btn btn-ghost btn-sm">Download</a>
     </div>
@@ -715,6 +728,18 @@
       a.addEventListener('click', function(){
         panel.classList.remove('open');
         menuBtn.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    document.querySelectorAll('a[href^="#"]').forEach(function(a){
+      a.addEventListener('click', function(e){
+        var id = a.getAttribute('href').slice(1);
+        var target = id ? document.getElementById(id) : document.body;
+        if (!target) return;
+        e.preventDefault();
+        var noMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        target.scrollIntoView({ behavior: noMotion ? 'auto' : 'smooth', block: 'start' });
+        history.replaceState(null, '', location.pathname);
       });
     });
 
